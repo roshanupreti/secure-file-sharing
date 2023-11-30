@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title th:text="${title} ?: 'Secure File Sharing'">Secure File Sharing</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/base.css}" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .main {
+            margin: 20px;
+        }
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <h1>Secure File Sharing</h1>
+</header>
+
+<main class="main">
+    <div th:replace="this :: content">
+        <!-- Content goes here -->
+    </div>
+</main>
+
+<footer class="footer">
+    <p>&copy; 2023 Secure File Sharing</p>
+</footer>
+</body>
+</html>
