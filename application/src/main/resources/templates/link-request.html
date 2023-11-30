@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="base :: head">
+    <title>Link Request Form</title>
+</head>
+<body>
+<!-- Use the base template -->
+<div th:replace="base :: body">
+    <!-- Define the content fragment -->
+    <div th:fragment="content">
+        <!-- Form content -->
+        <form id="linkRequestForm">
+            <input type="text" name="name" placeholder="Sender's Name" required>
+            <input type="email" name="from" placeholder="Sender's Email" required>
+            <input type="email" name="to" placeholder="Recipient's Email" required>
+            <input type="text" name="subject" placeholder="Subject" required>
+            <textarea name="body" placeholder="Body" required></textarea>
+            <input type="tel" name="phoneNumber" placeholder="Phone Number" required>
+            <button type="submit">Submit</button>
+        </form>
+        <script th:src="@{/js/link-request.js}"></script>
+    </div>
+</div>
+</body>
+</html>
+
+
