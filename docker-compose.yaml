@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    image: openjdk:17-jdk-slim  # Using an OpenJDK image
+    container_name: SecureREST
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./application/target/application-1.0-SNAPSHOT.jar:/app.jar  # Adjust the JAR file path
+      - ./application/src/main/resources/application.properties:/application.properties
+    command: java -Dspring.config.location=/application.properties -jar /app.jar
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:10.11
+    container_name: MariaDB
+    restart: always
+    environment:
+      - TZ=Europe/Helsinki
+      - MARIADB_DATABASE=test
+      - MARIADB_USER=test-user
+      - MARIADB_PASSWORD=strong-password
+      - MARIADB_ROOT_PASSWORD=mauFJcuf5dhRMQrjj
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    ports:
+      - 5018:3306
+
+volumes:
+    mariadb-data:
