@@ -1,0 +1,55 @@
+<!--
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{base :: head}">
+    <title>Request PIN</title>
+    &lt;!&ndash; Head elements are already included in base.html &ndash;&gt;
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var pinRequestId = /*[[${id}]]*/ 'defaultId';
+        /*]]>*/
+    </script>
+</head>
+<body>
+&lt;!&ndash; The content below will be inserted into the base.html template &ndash;&gt;
+
+<div th:replace="~{base :: body}">
+    &lt;!&ndash; Unique content for request-pin &ndash;&gt;
+    <div th:fragment="content">
+        <h2>Request PIN</h2>
+        <button id="requestPinButton">Request PIN</button>
+    </div>
+    &lt;!&ndash; Include the request-pin.js script &ndash;&gt;
+    <script th:src="@{/js/request-pin.js}"></script>
+</div>
+
+&lt;!&ndash; You might include additional scripts or elements specific to request-pin here &ndash;&gt;
+</body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{base :: head}">
+    <title>Request PIN</title>
+</head>
+<body>
+<div th:replace="~{base :: body}">
+    <div class="container" th:fragment="content">
+        <h2>Request PIN</h2>
+        <button id="requestPinButton">Request PIN</button>
+    </div>
+</div>
+
+<div id="successMessage" style="color: green;"></div>
+<div id="errorMessage" style="color: red;"></div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var pinRequestId = /*[[${id}]]*/ 'defaultId';
+    /*]]>*/
+</script>
+<script type="module" th:src="@{/js/pin-request.js}" defer></script>
+</body>
+</html>
+

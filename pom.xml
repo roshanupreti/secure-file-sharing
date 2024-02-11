@@ -13,6 +13,8 @@
 
     <modules>
         <module>application</module>
+        <module>model</module>
+        <module>repository</module>
         <!-- Add other module names here -->
     </modules>
 
@@ -20,6 +22,8 @@
         <java.version>17</java.version>
         <spring.boot.version>3.1.5</spring.boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jooq.version>3.18.7</jooq.version>
+        <mariadb.version>3.1.4</mariadb.version>
     </properties>
 
     <dependencyManagement>
@@ -32,6 +36,11 @@
                 <scope>import</scope>
             </dependency>
             <!-- Add other shared dependencies here -->
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

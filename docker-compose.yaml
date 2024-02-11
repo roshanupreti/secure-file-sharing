@@ -7,15 +7,14 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./application/target/application-1.0-SNAPSHOT.jar:/app.jar  # Adjust the JAR file path
-      - ./config/application.properties:/application.properties
-    command: java -Dspring.config.location=/application.properties -jar /app.jar
+      - ${PWD}/application/target/application-1.0-SNAPSHOT.jar:/app.jar  # Adjust the JAR file path
+    command: java -jar /app.jar
     depends_on:
       - mariadb
 
   mariadb:
     image: mariadb:10.11
-    container_name: MariaDB
+    container_name: mariadb
     restart: always
     environment:
       - TZ=Europe/Helsinki
@@ -25,8 +24,9 @@ services:
       - MARIADB_ROOT_PASSWORD=mauFJcuf5dhRMQrjj
     volumes:
       - mariadb-data:/var/lib/mysql
+      - ./config/mariadb-init:/docker-entrypoint-initdb.d
     ports:
-      - 5018:3306
+      - "3306:3306"
 
 volumes:
     mariadb-data:

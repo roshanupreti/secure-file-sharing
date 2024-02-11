@@ -1,3 +1,127 @@
+/*
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding-top: 60px; !* Adjust this value based on the actual height of your header *!
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; !* Change from center to flex-start *!
+    flex-direction: column;
+    min-height: 100vh; !* Change to min-height *!
+}
+
+.header {
+    background-color: #333; !* Dark header *!
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+!* Ensure the header is not flex item if body is flex container *!
+!*.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 50px; !* Adjust as needed *!
+    !* other styles *!
+}*!
+
+.main {
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff; !* White background for the main content area *!
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); !* Add subtle shadow for depth *!
+}
+
+.footer {
+    background-color: #333; !* Dark footer *!
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+!*.container {
+    max-width: 600px; !* Set a max-width for the form container *!
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fafafa; !* Light background for the form container *!
+    border-radius: 8px; !* Rounded corners for the container *!
+}*!
+
+!* Adjust the container for vertical spacing without flex centering *!
+.container {
+    max-width: 600px;
+    width: 100%;
+    margin: 15px;
+    padding: 20px;
+    background-color: #fafafa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    !* Remove flex properties if they were there *!
+}
+
+.form-group {
+    margin-bottom: 15px; !* Space out form elements *!
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+    width: calc(100% - 20px); !* Full width minus padding *!
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd; !* Light grey border *!
+    border-radius: 4px; !* Rounded corners for inputs *!
+}
+
+textarea {
+    resize: vertical; !* Allow vertical resizing of textarea *!
+}
+
+button {
+    width: auto; !* Do not stretch button to full width *!
+    padding: 10px 20px;
+    background-color: #4CAF50; !* Green button *!
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px; !* Rounded corners for button *!
+}
+
+button:hover {
+    background-color: #45a049; !* Darker green on hover *!
+}
+
+.message-bar {
+    text-align: center;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px; !* Rounded corners for message bar *!
+    display: none; !* Hidden by default *!
+}
+
+.success {
+    background-color: #4CAF50; !* Success message in green *!
+    color: white;
+}
+
+.error {
+    background-color: #f44336; !* Error message in red *!
+    color: white;
+}
+
+.disabled {
+    background-color: #ccc;
+    color: #777;
+    !* other styles to indicate the element is disabled *!
+}
+
+*/
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -86,4 +210,10 @@ button:hover {
 .error {
     background-color: #f44336; /* Error message in red */
     color: white;
+}
+
+.disabled {
+    background-color: #ccc;
+    color: #777;
+    /* other styles to indicate the element is disabled */
 }

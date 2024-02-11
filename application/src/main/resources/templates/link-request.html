@@ -1,14 +1,15 @@
+<!--
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="base :: head">
+<head th:replace="~{base :: head}">
     <title>Link Request Form</title>
 </head>
 <body>
-<!-- Use the base template -->
-<div th:replace="base :: body">
-    <!-- Define the content fragment -->
+&lt;!&ndash; Use the base template &ndash;&gt;
+<div th:replace="~{base :: body}">
+    &lt;!&ndash; Define the content fragment &ndash;&gt;
     <div th:fragment="content">
-        <!-- Form content -->
+        &lt;!&ndash; Form content &ndash;&gt;
         <form id="linkRequestForm">
             <input type="text" name="name" placeholder="Sender's Name" required>
             <input type="email" name="from" placeholder="Sender's Email" required>
@@ -18,6 +19,10 @@
             <input type="tel" name="phoneNumber" placeholder="Phone Number" required>
             <button type="submit">Submit</button>
         </form>
+        &lt;!&ndash; Message bar for displaying messages &ndash;&gt;
+        <div id="messageBar" class="message-bar" style="display:none;"></div>
+        &lt;!&ndash; Go Back Button (hidden by default) &ndash;&gt;
+        <button id="goBackButton" style="display:none;" onclick="location.reload();">Go Back</button>
         <script th:src="@{/js/link-request.js}"></script>
     </div>
 </div>
@@ -25,3 +30,48 @@
 </html>
 
 
+-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{base :: head}">
+    <title>Link Request Form</title>
+</head>
+<body>
+<!-- Use the base template -->
+<div th:replace="~{base :: body}">
+    <!-- Define the content fragment -->
+    <div class="container" th:fragment="content"> <!-- Apply the container class here -->
+        <!-- Form content -->
+        <form id="linkRequestForm">
+            <div class="form-group">
+                <input type="text" name="name" placeholder="Sender's Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" name="from" placeholder="Sender's Email" required>
+            </div>
+            <div class="form-group">
+                <input type="email" name="to" placeholder="Recipient's Email" required>
+            </div>
+            <div class="form-group">
+                <input type="text" name="subject" placeholder="Subject" required>
+            </div>
+            <div class="form-group">
+                <textarea name="body" placeholder="Body" required></textarea>
+            </div>
+            <div class="form-group">
+                <input type="tel" name="phoneNumber" placeholder="Phone Number" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+        <!-- Message bar for displaying messages -->
+        <div id="messageBar" class="message-bar" style="display:none;"></div>
+        <!-- Go Back Button (hidden by default) -->
+        <button id="goBackButton" style="display:none;" onclick="location.reload();">Go Back</button>
+    </div>
+</div>
+<script th:src="@{/js/link-request.js}"></script>
+</body>
+</html>
