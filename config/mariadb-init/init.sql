@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `share_log`
     `hashed_link`        varchar(255) NOT NULL,
     `sender_name`        varchar(255) NOT NULL,
     `sender_email`       varchar(255) NOT NULL,
+    `is_valid`           tinyint(1) NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`),
     UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
@@ -28,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `pin_log`
 CREATE TABLE IF NOT EXISTS `access_log`
 (
     `id`                 varchar(255) NOT NULL,
-    `accessed_timestamp` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp (),
+    `accessed_timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
     `client_fingerprint` varchar(255) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `id` (`id`),

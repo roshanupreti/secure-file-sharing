@@ -2,11 +2,13 @@ package org.example.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
+import java.time.LocalDateTime;
+
 /**
  *
- * @param clientFingerPrint MAC id of the device from where the request is originating.
+ * @param clientFingerPrint some kind of identifier of the device from where the request is originating.
  */
-public record PinRequestDto(@NotBlank(message = "Unique client id is required") String clientFingerPrint) {
+public record PinRequestDto(@NotBlank(message = "Unique client id is required") String clientFingerPrint, LocalDateTime expiration) {
 
     @Override
     public String toString() {

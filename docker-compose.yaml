@@ -7,8 +7,9 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ${PWD}/application/target/application-1.0-SNAPSHOT.jar:/app.jar  # Adjust the JAR file path
+      - ./application/target/application-1.0-SNAPSHOT.jar:/app.jar  # Adjust the JAR file path
     command: java -jar /app.jar
+    restart: always
     depends_on:
       - mariadb
 

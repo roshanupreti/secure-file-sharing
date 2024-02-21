@@ -1,37 +1,3 @@
-<!--
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="~{base :: head}">
-    <title>Link Request Form</title>
-</head>
-<body>
-&lt;!&ndash; Use the base template &ndash;&gt;
-<div th:replace="~{base :: body}">
-    &lt;!&ndash; Define the content fragment &ndash;&gt;
-    <div th:fragment="content">
-        &lt;!&ndash; Form content &ndash;&gt;
-        <form id="linkRequestForm">
-            <input type="text" name="name" placeholder="Sender's Name" required>
-            <input type="email" name="from" placeholder="Sender's Email" required>
-            <input type="email" name="to" placeholder="Recipient's Email" required>
-            <input type="text" name="subject" placeholder="Subject" required>
-            <textarea name="body" placeholder="Body" required></textarea>
-            <input type="tel" name="phoneNumber" placeholder="Phone Number" required>
-            <button type="submit">Submit</button>
-        </form>
-        &lt;!&ndash; Message bar for displaying messages &ndash;&gt;
-        <div id="messageBar" class="message-bar" style="display:none;"></div>
-        &lt;!&ndash; Go Back Button (hidden by default) &ndash;&gt;
-        <button id="goBackButton" style="display:none;" onclick="location.reload();">Go Back</button>
-        <script th:src="@{/js/link-request.js}"></script>
-    </div>
-</div>
-</body>
-</html>
-
-
--->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="~{base :: head}">

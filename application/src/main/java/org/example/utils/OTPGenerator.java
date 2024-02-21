@@ -1,4 +1,4 @@
-package org.example.service.helper;
+package org.example.utils;
 
 import java.security.SecureRandom;
 

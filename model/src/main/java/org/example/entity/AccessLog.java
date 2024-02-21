@@ -16,9 +16,11 @@ public class AccessLog {
 
     @Id
     @Column(name = "id")
+    @NonNull
     private String id;
 
     @Column(name = "client_fingerprint")
+    @NonNull
     private String clientFingerPrint;
 
     @Column(name = "accessed_timestamp")

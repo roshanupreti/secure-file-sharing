@@ -1,6 +1,7 @@
 package org.example.controller.sharedlink;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.example.dto.LinkRequestDto;
 import org.example.dto.PinRequestDto;
 import org.example.dto.PinValidationDto;
-import org.example.service.SharedLinkService;
+import org.example.service.sharedlink.ISharedLinkService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,20 +26,26 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 @Slf4j
 public class SharedLinkController {
 
-    private final SharedLinkService sharedLinkService;
+    private final ISharedLinkService sharedLinkService;
 
-    // Endpoint to send an email with a download link
+    @Operation(
+            summary = "Send an email containing the access-link.",
+            description = "Based on the provided parameters in the payload, send an email to the recipient, containing" +
+                    " the access-link. The payload includes sender and recipient details, including the recipient's" +
+                    " phone number which would be used later, for 2FA."
+    )
     @PostMapping("/new")
     public ResponseEntity<URI> shareNewLink(@Valid @RequestBody LinkRequestDto linkRequestDto) {
-        final String currentPath = fromCurrentRequestUri().toUriString();
-        return new ResponseEntity<>(sharedLinkService.shareLink(linkRequestDto, currentPath), HttpStatus.CREATED);
+        //final String currentPath = fromCurrentRequestUri().toUriString();
+        //final ShareLog shareLog = sharedLinkService.createSharedLink(linkRequestDto);
+        /*URI location = URI.create(String.format("%s/%s",
+                StringUtils.replace(currentPath, "/new", ""),
+                String.format("%s/request-pin-view", shareLog.getId())));*/
+        return new ResponseEntity<>(sharedLinkService.createSharedLink(linkRequestDto, fromCurrentRequestUri().toUriString()), HttpStatus.CREATED);
+        //return new ResponseEntity<>(service.shareLink(linkRequestDto, currentPath), HttpStatus.CREATED);
     }
 
-    // Endpoint that gets invoked when the email link is clicked. This endpoint simply takes in the link id as the
-    // path parameter, sets it as 'id' in the model map, eventually returning the specified 'html' file from templates
-    // directory. It simply returns a html page with a button, clicking which will send a pin to the recipient's phone
-    // number via sms. Prior to that it checks if the link is expired, already accessed or if a PIN has already been
-    // sent out.
+
     @GetMapping("{id}/request-pin-view")
     public ModelAndView getPinRequestView(@PathVariable String id) {
         ModelAndView modelAndView = new ModelAndView();
@@ -47,6 +54,11 @@ public class SharedLinkController {
         return modelAndView;
     }
 
+    @Operation(
+            summary = "Send the PIN code to the recipient's phone number, via SMS.",
+            description = "Invocation of this endpoint results in the sending of the PIN code to the recipient," +
+                    " provided that the associated link hasn't expired or been accessed."
+    )
     @PostMapping("/{id}/request")
     public RedirectView generateAndReturnPin(
             @PathVariable String id,
@@ -54,7 +66,9 @@ public class SharedLinkController {
     ) {
 
         // Generate and Send PIN
-        sharedLinkService.generateAndSendPin(id, pinRequestDto);
+        //service.generateAndSendPin(id, pinRequestDto);
+
+        sharedLinkService.sendPinCode(id, pinRequestDto);
 
         // Prepare redirect URI
         URI location = URI.create(String.format("%s/%s",
@@ -73,11 +87,25 @@ public class SharedLinkController {
         return modelAndView;
     }
 
+    @Operation(
+            summary = "Validate the PIN and redirect to the shared resource.",
+            description = "This endpoint takes in the PIN from payload, validates it and redirects to the shared" +
+                    " resource, provided that the PIN is valid."
+    )
     @PostMapping("/{id}")
     public RedirectView validatePinAndRedirectToResource(
             @PathVariable String id,
             @RequestBody PinValidationDto pinValidationDto
     ) {
-        return new RedirectView(sharedLinkService.validatePinAndRedirectToResource(id, pinValidationDto).toString());
+        return new RedirectView(sharedLinkService.getAccessibleLink(id, pinValidationDto).toString());
+    }
+
+    @Operation(
+            summary = "Invalidate a single shared-resource.",
+            description = "Invalidate a single resource, based on the provided 'id' and payload."
+    )
+    @PostMapping("/{id}/invalidate")
+    public void invalidateSharedResource(@PathVariable String id) {
+        sharedLinkService.invalidateSharedLink(id);
     }
 }

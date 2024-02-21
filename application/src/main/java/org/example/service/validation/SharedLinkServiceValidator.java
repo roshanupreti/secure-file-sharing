@@ -2,51 +2,67 @@ package org.example.service.validation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.example.dto.CurrentLinkStatusDto;
-import org.example.entity.AccessLog;
-import org.example.entity.PinLog;
-import org.example.entity.ShareLog;
+import org.example.dto.PinValidationDto;
 import org.example.exception.RESTException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
 @Slf4j
 @Component
 @Validated
-public class SharedLinkServiceValidator {
+public class SharedLinkServiceValidator implements ISharedLinkServiceValidator {
 
-    public void validatePinGenerationRequest(CurrentLinkStatusDto currentLinkStatusDto) {
-        final ShareLog shareLog = currentLinkStatusDto.shareLog();
-        final AccessLog accessLog = currentLinkStatusDto.accessLog();
-        final PinLog pinLog = currentLinkStatusDto.pinLog();
-
-        if (Objects.isNull(pinLog)
-                || Objects.isNull(pinLog.getId())) {
-            checkIfResourceIsInaccessible(shareLog, accessLog);
-        } else {
-            throw new RESTException(
-                    HttpStatus.BAD_REQUEST,
-                    "A pin code for this link has already been sent out."
-            );
+    /**
+     * Validate the conditions for a PIN code generation.
+     *
+     * @param currentLinkStatusDto represents the current status of share log, in relation with pin and access log.
+     */
+    @Override
+    public void validateConditionsForPinGeneration(CurrentLinkStatusDto currentLinkStatusDto) {
+        if (Objects.nonNull(currentLinkStatusDto.pinLog())) {
+            throw new RESTException(HttpStatus.BAD_REQUEST, "PIN code already sent out.");
         }
     }
 
-    public void checkIfResourceIsInaccessible(ShareLog shareLog, AccessLog accessLog) {
-        if (Duration.between(shareLog.getCreationTimestamp(), LocalDateTime.now()).toHours() > 1
-                || BooleanUtils.isFalse(shareLog.getSentStatus())
-                || (Objects.nonNull(accessLog) && Objects.nonNull(accessLog.getId()))) {
-            throw new RESTException(
-                    HttpStatus.NOT_FOUND,
-                    String.format("Link Inaccessible - It could've been accessed, expired or not sent at all in " +
-                            "the first place. Please contact the sender: %s using the email: %s",
-                            shareLog.getSenderName(),
-                            shareLog.getSenderEmail())
-            );
+    /**
+     * Validate whether the resource is accessible or not.
+     *
+     * @param pinValidationDto represents the user provided PIN code.
+     * @param currentLinkStatusDto represents the current status of share log, in relation with pin and access log.
+     */
+    @Override
+    public void validatePinAndResourceAccessibility(
+            PinValidationDto pinValidationDto,
+            CurrentLinkStatusDto currentLinkStatusDto) {
+        // Validate PIN and client fingerprint
+        boolean isPinValid = StringUtils.equals(sha256Hex(pinValidationDto.pin()), currentLinkStatusDto.pinLog().getHashedPin());
+        boolean isFingerprintValid = StringUtils.equals(sha256Hex(pinValidationDto.clientFingerPrint()), currentLinkStatusDto.pinLog().getClientFingerPrint());
+
+        if (!isPinValid || !isFingerprintValid) {
+            throw new RESTException(HttpStatus.BAD_REQUEST, "Invalid PIN.");
+        }
+
+        // Check if the link has already been accessed
+        if (Objects.nonNull(currentLinkStatusDto.accessLog())) {
+            throw new RESTException(HttpStatus.BAD_REQUEST, "The link has already been accessed.");
+        }
+
+        // Check expiration
+        if (currentLinkStatusDto.pinLog().getExpirationTimestamp().isBefore(LocalDateTime.now())) {
+            throw new RESTException(HttpStatus.BAD_REQUEST, "The link has expired.");
+        }
+
+        // Check link validity
+        if (BooleanUtils.isFalse(currentLinkStatusDto.shareLog().getIsValid())) {
+            throw new RESTException(HttpStatus.BAD_REQUEST, "The link is no longer valid.");
         }
     }
 }

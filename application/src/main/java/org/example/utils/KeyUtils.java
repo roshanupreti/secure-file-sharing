@@ -1,4 +1,4 @@
-package org.example.service.helper;
+package org.example.utils;
 
 import org.example.exception.RESTException;
 import org.springframework.http.HttpStatus;

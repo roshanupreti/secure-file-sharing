@@ -9,16 +9,17 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor()
 @RequiredArgsConstructor
 @Entity
 @Table(name = "share_log")
 public class ShareLog {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    /*@GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")*/
     @Column(name = "id", updatable = false, nullable = false)
+    @NonNull
     private String id;
 
     @Column(name = "recipient_email")
@@ -47,5 +48,9 @@ public class ShareLog {
     @Column(name = "sender_email")
     @NonNull
     private String senderEmail;
+
+    @Column(name = "is_valid")
+    @NonNull
+    private Boolean isValid;
 }
 

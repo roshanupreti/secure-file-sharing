@@ -9,19 +9,17 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
 
 @ContextConfiguration(classes = {HomeController.class})
 @ExtendWith(SpringExtension.class)
-class HomeControllerDiffblueTest {
+class HomeControllerTest {
+
     @Autowired
     private HomeController homeController;
 
-    /**
-     * Method under test: {@link HomeController#home(Model)}
-     */
+
     @Test
-    void testHome() throws Exception {
+    void without_uri_variables() throws Exception {
         // Arrange
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/");
 
@@ -36,11 +34,9 @@ class HomeControllerDiffblueTest {
                 .andExpect(MockMvcResultMatchers.forwardedUrl("link-request"));
     }
 
-    /**
-     * Method under test: {@link HomeController#home(Model)}
-     */
+
     @Test
-    void testHome2() throws Exception {
+    void with_uri_variables() throws Exception {
         // Arrange
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/", "Uri Variables");
 
