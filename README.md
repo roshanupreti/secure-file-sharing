@@ -4,7 +4,9 @@ This repository contains the Secure File Sharing application, a multi-module Spr
 
 ## Modules
 
-- **Application Module**: The main module containing the Spring Boot application.
+- **Application Module**: The main module containing the Spring Boot application, including the service layer.
+- **Repository Module**: The repository module is responsible for maintaining database operations.
+- **Model Module**: This module contains POJO/entities.
 
 ## Getting Started
 
@@ -63,6 +65,9 @@ To run the application as a Docker container, use the following steps:
 2. **Access the Application**
 
 The application will be accessible at `http://localhost:8080`.
+
+A `Makefile` has been included to aid with building and deploying the application locally, just run `make build && make deploy`
+to get the application running.
 
 ## Configuration
 
