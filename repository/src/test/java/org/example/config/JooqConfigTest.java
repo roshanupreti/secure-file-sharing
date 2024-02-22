@@ -14,7 +14,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ContextConfiguration(classes = {JooqConfig.class})
 @ExtendWith(SpringExtension.class)
-class JooqConfigDiffblueTest {
+class JooqConfigTest {
+
     @MockBean
     private DataSource dataSource;
 
@@ -25,7 +26,7 @@ class JooqConfigDiffblueTest {
      * Method under test: {@link JooqConfig#getDSLContext()}
      */
     @Test
-    void testGetDSLContext() {
+    void get_dsl_context() {
         // Arrange, Act and Assert
         assertTrue(jooqConfig.getDSLContext() instanceof DefaultDSLContext);
     }
